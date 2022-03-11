@@ -23,8 +23,9 @@ export const startMediapipe = async (
 ): Promise<void> => {
   console.log("Starting mediapipe");
 
-  if (holistic || camera) {
-    console.log("Mediapipe already started, aborting");
+  if (holistic && camera) {
+    console.log("Mediapipe already started, using current instance");
+    hasStarted = true;
     cameraCanvas.dispatchEvent(new Event("started"));
     return;
   }
@@ -36,16 +37,7 @@ export const startMediapipe = async (
   // Cache the drawing context
   const context = cameraCanvas.getContext("2d");
 
-  // Setup mediapipe holistic model if it isn't already loaded
-  if (!holistic)
-    holistic = new Holistic({
-      locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/${file}`;
-      },
-    });
-
-  holistic.setOptions({ refineFaceLandmarks: true });
-
+  // Handler for mediapipe results
   const onResults: ResultsListener = (results) => {
     if (!hasStarted) {
       hasStarted = true;
@@ -57,15 +49,26 @@ export const startMediapipe = async (
     }
   };
 
-  holistic.onResults(onResults);
+  // Setup mediapipe holistic model if it isn't already loaded
+  if (!holistic) {
+    holistic = new Holistic({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/${file}`;
+      },
+    });
+    holistic.setOptions({ refineFaceLandmarks: true });
+    holistic.onResults(onResults);
+  }
 
-  camera = new Camera(cameraVideo, {
-    onFrame: async () => {
-      await holistic.send({ image: cameraVideo });
-    },
-  });
-
-  await camera.start();
+  // Setup camera if it isn't already running
+  if (!camera) {
+    camera = new Camera(cameraVideo, {
+      onFrame: async () => {
+        await holistic.send({ image: cameraVideo });
+      },
+    });
+    await camera.start();
+  }
 };
 
 export const stopMediapipe = async () => {

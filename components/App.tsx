@@ -14,8 +14,13 @@ import { startMediapipe, stopMediapipe } from "../scripts/mediapipe";
 import { getPromiseFromEvent } from "../util/awaitEvent";
 
 import UI from "../components/UI";
+import { GetServerSideProps } from "next";
 
-const App: FunctionComponent = () => {
+type AppProps = {
+  username?: string;
+};
+
+const App: FunctionComponent<AppProps> = ({ username }) => {
   // Loading overlay
   const [loading, setLoading] = useState<string | null>(null);
 
@@ -51,18 +56,6 @@ const App: FunctionComponent = () => {
     };
     start();
   }, []);
-
-  // Run on component dismount
-  useEffect(
-    () => () => {
-      const stop = async () => {
-        console.log("App dismounting, beginning cleanup");
-        await stopMediapipe();
-      };
-      stop();
-    },
-    []
-  );
 
   return (
     <>
