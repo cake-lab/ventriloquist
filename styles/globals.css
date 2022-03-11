@@ -1,0 +1,153 @@
+body {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #eaeaea;
+}
+
+/* Camera stuff */
+#camera-video {
+  display: none;
+}
+#camera-canvas {
+  width: 400px;
+
+  border: 2px solid black;
+  border-radius: 10px;
+
+  margin-bottom: 20px;
+}
+
+/* UI component */
+#ui-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+
+  justify-content: flex-start;
+}
+
+/* Homescreen */
+#home-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#home-panel {
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  margin-top: 100px;
+  text-align: center;
+}
+
+/* Control Panel */
+#control-panel {
+  border: 2px solid black;
+  background-color: white;
+
+  border-radius: 10px;
+
+  padding: 20px;
+  width: 400px;
+}
+
+.control-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Gestures */
+.gesture-row:nth-child(even) {
+  background: white;
+}
+.gesture-row:nth-child(odd) {
+  background: #eaeaea;
+}
+
+/* Navbar */
+#navbar {
+  border: 2px solid black;
+  border-radius: 10px;
+
+  width: 100%;
+  background-color: white;
+  display: flex;
+
+  padding: 20px;
+
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.navbar-item {
+  font-size: 20px;
+
+  cursor: pointer;
+}
+
+.navbar-item:hover {
+  color: #acacac;
+}
+
+#tab-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.tab {
+  margin: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.tab:hover {
+  color: #acacac;
+}
+
+.tab-content {
+  padding: 20px;
+  padding-top: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Loading */
+
+#loading-container {
+  position: fixed;
+  display: flex;
+  z-index: 100;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #eaeaea;
+  align-items: center;
+  justify-content: center;
+}
+
+#loading-text {
+  opacity: 1;
+  animation: fade 2s linear;
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
