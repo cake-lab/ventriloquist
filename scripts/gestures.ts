@@ -61,39 +61,37 @@ const loadMixamoAnimation = async (url: string, vrm: VRM) => {
 
   const tracks = [];
 
-  clip.tracks.forEach((track) => {
+  for (const track of clip.tracks) {
     const splitTrack = track.name.split(".");
     const mixamoRigName = splitTrack[0];
 
     const vrmBoneName = mixamoVrmMap[mixamoRigName];
     const vrmNodeName = currentVrm.humanoid?.getBoneNode(vrmBoneName)?.name;
 
-    if (vrmNodeName !== null) {
-      const propertyName = splitTrack[1];
-      if (track instanceof THREE.QuaternionKeyframeTrack) {
-        tracks.push(
-          new THREE.QuaternionKeyframeTrack(
-            `${vrmNodeName}.${propertyName}`,
-            track.times,
-            track.values.map((v, i) =>
-              vrm.meta?.version === "0" && i % 2 === 0 ? -v : v
-            )
-          )
-        );
-      } else if (track instanceof THREE.VectorKeyframeTrack) {
-        tracks.push(
-          new THREE.VectorKeyframeTrack(
-            `${vrmNodeName}.${propertyName}`,
-            track.times,
-            track.values.map(
-              (v, i) =>
-                (vrm.meta?.version === "0" && i % 3 !== 1 ? -v : v) * 0.01
-            )
-          )
-        );
-      }
+    if (vrmNodeName === null) {
+      console.error(`Error finding ${vrmBoneName}`);
+      return null;
     }
-  });
+
+    const propertyName = splitTrack[1];
+    if (track instanceof THREE.QuaternionKeyframeTrack) {
+      tracks.push(
+        new THREE.QuaternionKeyframeTrack(
+          `${vrmNodeName}.${propertyName}`,
+          track.times,
+          track.values.map((v, i) => (i % 2 === 0 ? -v : v))
+        )
+      );
+    } else if (track instanceof THREE.VectorKeyframeTrack) {
+      tracks.push(
+        new THREE.VectorKeyframeTrack(
+          `${vrmNodeName}.${propertyName}`,
+          track.times,
+          track.values.map((v, i) => (i % 3 !== 1 ? -v : v) * 0.01)
+        )
+      );
+    }
+  }
 
   const animationClip = new THREE.AnimationClip(url, clip.duration, tracks);
 

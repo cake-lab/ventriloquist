@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors } from "@mediapipe/drawing_utils";
 import {
@@ -43,7 +44,7 @@ export const startMediapipe = async (
    * This will change the currently loaded VRM model
    * Shouldn't do anything if isGesturing
    */
-  const onResults: ResultsListener = (results) => {
+  const onResults: ResultsListener = (results: Results) => {
     if (!hasStarted) {
       hasStarted = true;
       console.log("Dispatching mediapipe start event");
@@ -63,7 +64,7 @@ export const startMediapipe = async (
   // Setup mediapipe holistic model if it isn't already loaded
   if (!holistic) {
     holistic = new Holistic({
-      locateFile: (file) => {
+      locateFile: (file: string) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/${file}`;
       },
     });

@@ -7,7 +7,7 @@ const Nav: FunctionComponent = () => {
 
   return (
     <div id="navbar">
-      <div>
+      <div style={{ display: "flex" }}>
         <div
           className="navbar-item"
           onClick={() => {
@@ -16,6 +16,7 @@ const Nav: FunctionComponent = () => {
         >
           Home
         </div>
+        <div className="navbar-item">GitHub</div>
       </div>
       <div style={{ flexGrow: 1 }}></div>
       <div>

@@ -43,7 +43,8 @@ export const startScene = async (
     0.1,
     1000
   );
-  camera.position.set(0.0, 1.4, 0.7);
+  camera.position.set(0.0, 1.6, 3);
+
   scene.add(camera);
 
   controls = new OrbitControls(camera, sceneCanvas);
@@ -80,10 +81,10 @@ const animate = () => {
 
   const delta = clock.getDelta();
 
-  currentVrm.update(delta);
   if (isGesturing) {
     mixer.update(delta);
   }
+  currentVrm.update(delta);
 
   renderer.render(scene, camera);
 };

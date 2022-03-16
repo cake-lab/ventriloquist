@@ -83,6 +83,7 @@ body {
 
 /* Navbar */
 #navbar {
+  pointer-events: auto;
   border: 2px solid black;
   border-radius: 10px;
 
