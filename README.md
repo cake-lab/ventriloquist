@@ -41,8 +41,8 @@ You can install and run the base app locally by running the following commands i
 
 ```sh
 # Clone and enter the repository
-git clone https://github.com/cake-lab/Ventriloquist
-cd Ventriloquist
+git clone https://github.com/cake-lab/ventriloquist
+cd ventriloquist
 
 # Install packages
 npm i
@@ -58,7 +58,7 @@ If you want your local installation to support user profiles, you will need to c
 
 ```sh
 # .env.local
-MONGODB_URI=<...>
+MONGODB_URI=<your mongo uri>
 MONGODB_DB=<your db name>
 ```
 
