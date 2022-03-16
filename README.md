@@ -80,7 +80,7 @@ There is one model loaded into a [three.js](https://threejs.org/) scene, and its
 
 Ventriloquist runs mostly in the browser, but it also has a server for things like user presets and static file hosting. It is built with [nextjs](https://nextjs.org/), so both the front- and backend are included in this repository.
 
-It heavily leverages the following libraries:
+In the browser, ventriloquist heavily leverages the following libraries:
 
 - [mediapipe](https://google.github.io/mediapipe/) is used for face and pose recognition using a webcam. This project uses the [holistic](https://www.npmjs.com/package/@mediapipe/holistic) tracker.
 - [kalidokit](https://github.com/yeemachine/kalidokit) is used on top of Mediapipe to calculate both raw position and kinematics for the VTuber model.
