@@ -1,3 +1,4 @@
+import React from "react";
 import {
   FunctionComponent,
   useEffect,
@@ -5,18 +6,18 @@ import {
   useRef,
   useState,
 } from "react";
-import Loading from "../components/Loading";
 
-import React from "react";
+import Loading from "../components/Loading";
+import UI from "../components/UI";
+
 import { startVideo } from "../scripts/camera";
 import { startScene } from "../scripts/scene";
 import { startMediapipe, stopMediapipe } from "../scripts/mediapipe";
+import { loadDefaultGestures } from "../scripts/gestures";
+
 import { getPromiseFromEvent } from "../util/awaitEvent";
 
-import UI from "../components/UI";
-import { GetServerSideProps } from "next";
-
-type AppProps = {
+export type AppProps = {
   username?: string;
 };
 
@@ -45,6 +46,9 @@ const App: FunctionComponent<AppProps> = ({ username }) => {
 
       setLoading("Setting up three.js scene");
       await startScene(sceneCanvasRef.current!);
+
+      setLoading("Loading default gestures");
+      await loadDefaultGestures();
 
       setLoading("Starting mediapipe");
       await startMediapipe(cameraCanvasRef.current!, cameraVideoRef.current!);

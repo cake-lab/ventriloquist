@@ -8,6 +8,7 @@ import Head from "next/head";
 import React from "react";
 import { ReactChild, FunctionComponent } from "react";
 
+/*
 type SafeHydrateProps = {
   children: ReactChild | ReactChild[];
 };
@@ -19,10 +20,11 @@ const SafeHydrate: FunctionComponent<SafeHydrateProps> = ({ children }) => {
     </div>
   );
 };
+*/
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <SafeHydrate>
+    <>
       <Head>
         <title>Ventriloquist</title>
         <meta
@@ -32,7 +34,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
-    </SafeHydrate>
+    </>
   );
 };
 

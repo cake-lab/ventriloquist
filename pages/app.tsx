@@ -1,22 +1,20 @@
 import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
+import React from "react";
+import { AppProps } from "../components/App";
 
 // This disables SSR for the App component
 // Webkit was getting mad because kalidokit doesn't work on node
 const DynamicApp = dynamic(() => import("../components/App"), { ssr: false });
 
-type DynamicAppProps = {
-  username: string;
-};
-
-const App: NextPage<DynamicAppProps> = ({ username }) => {
+const App: NextPage<AppProps> = ({ username }) => {
   return <DynamicApp username={username} />;
 };
 
 /**
  * See if the user is logged in or not
  */
-export const getServerSideProps: GetServerSideProps<DynamicAppProps> = async (
+export const getServerSideProps: GetServerSideProps<AppProps> = async (
   context
 ) => {
   return { props: { username: "hi" } };

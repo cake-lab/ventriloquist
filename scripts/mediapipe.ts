@@ -8,6 +8,7 @@ import {
   Results,
   ResultsListener,
 } from "@mediapipe/holistic";
+import { isGesturing } from "./gestures";
 import { rigVrm } from "./rig";
 //import { rigVrm } from "./rig";
 import { currentVrm } from "./scene";
@@ -37,13 +38,23 @@ export const startMediapipe = async (
   // Cache the drawing context
   const context = cameraCanvas.getContext("2d");
 
-  // Handler for mediapipe results
+  /**
+   * Handler for mediapipe results
+   * This will change the currently loaded VRM model
+   * Shouldn't do anything if isGesturing
+   */
   const onResults: ResultsListener = (results) => {
     if (!hasStarted) {
       hasStarted = true;
+      console.log("Dispatching mediapipe start event");
       cameraCanvas.dispatchEvent(new Event("started"));
     }
+
     drawResults(results, cameraCanvas, context!);
+
+    // Do everythign else, but if you're gesturing then go no further
+    if (isGesturing) return;
+
     if (currentVrm) {
       rigVrm(currentVrm, results, cameraVideo);
     }

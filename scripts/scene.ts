@@ -1,9 +1,12 @@
-import { VRM, VRMUtils } from "@pixiv/three-vrm";
+import { VRM, VRMSchema, VRMUtils } from "@pixiv/three-vrm";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { isGesturing, setIsGesturing } from "./gestures";
 
 export let currentVrm: VRM;
+
+//export let cameraVrmOffset: THREE.Vector3; // sssh nothing sketchy going on here
 
 let scene: THREE.Scene;
 let renderer: THREE.WebGLRenderer;
@@ -11,6 +14,9 @@ let clock: THREE.Clock;
 let camera: THREE.Camera;
 let light: THREE.Light;
 let controls: OrbitControls;
+
+// Mixer for gesture actions
+export let mixer: THREE.AnimationMixer;
 
 export const startScene = async (
   sceneCanvas: HTMLCanvasElement
@@ -38,6 +44,7 @@ export const startScene = async (
     1000
   );
   camera.position.set(0.0, 1.4, 0.7);
+  scene.add(camera);
 
   controls = new OrbitControls(camera, sceneCanvas);
   controls.screenSpacePanning = true;
@@ -48,9 +55,14 @@ export const startScene = async (
   light.position.set(1.0, 1.0, 1.0).normalize();
   scene.add(light);
 
-  // Load as many models as there are people
-  await loadModel();
+  // Load the model into a vrm object
+  currentVrm = await loadModel();
 
+  mixer = new THREE.AnimationMixer(currentVrm.scene);
+  mixer.addEventListener("finished", (e) => {
+    console.log("Animation finished");
+    setIsGesturing(false);
+  });
   // Begin animation loop
   animate();
 };
@@ -58,11 +70,19 @@ export const startScene = async (
 /**
  * Main animation loop
  */
+
+let oldPosition = new THREE.Vector3();
+let newPosition = new THREE.Vector3();
 const animate = () => {
   requestAnimationFrame(animate);
 
-  if (currentVrm) {
-    currentVrm.update(clock.getDelta());
+  if (!currentVrm) return;
+
+  const delta = clock.getDelta();
+
+  currentVrm.update(delta);
+  if (isGesturing) {
+    mixer.update(delta);
   }
 
   renderer.render(scene, camera);
@@ -77,9 +97,10 @@ const loadModel = async (filename: string = "/rigs/avatar_sample_a.vrm") => {
   const gltf = await loader.loadAsync(filename);
 
   VRMUtils.removeUnnecessaryJoints(gltf.scene);
+  VRMUtils.removeUnnecessaryVertices(gltf.scene);
   const vrm = await VRM.from(gltf);
-  scene.add(vrm.scene);
 
-  currentVrm = vrm;
-  currentVrm.scene.rotation.y = Math.PI;
+  scene.add(vrm.scene);
+  vrm.scene.rotation.y = Math.PI;
+  return vrm;
 };
