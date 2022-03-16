@@ -70,6 +70,10 @@ body {
 }
 
 /* Gestures */
+.gesture-row {
+  cursor: pointer;
+}
+
 .gesture-row:nth-child(even) {
   background: white;
 }

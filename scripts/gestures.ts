@@ -6,7 +6,7 @@ import { currentVrm, mixer } from "./scene";
 import { mixamoVrmMap } from "../util/mixamoVrmMap";
 import { VRM } from "@pixiv/three-vrm";
 
-const DEFAULT_GESTURE_FILES = ["Punching.fbx", "Walking.fbx"];
+const DEFAULT_GESTURE_FILES = ["Punching.fbx", "Walking.fbx", "Dancing.fbx"];
 
 /**
  * Gesture type

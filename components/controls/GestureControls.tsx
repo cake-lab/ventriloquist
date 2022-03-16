@@ -12,7 +12,7 @@ const GestureControls: FunctionComponent = () => {
       <b>Default Gestures</b>
       <table>
         <thead>
-          <tr className="gesture-row">
+          <tr>
             <th>Name</th>
             <th>Trigger</th>
           </tr>
@@ -25,6 +25,7 @@ const GestureControls: FunctionComponent = () => {
                 onClick={() => {
                   startGesture(gesture);
                 }}
+                className="gesture-row"
               >
                 <td>{gesture.name}</td>
                 <td>{gesture.trigger}</td>
