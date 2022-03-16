@@ -2,6 +2,13 @@
 <p align="center">ventriloquist is a browser-based VTubing app inspired by <a href="https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf">Alter Echo</a></p>
 <p align="center">
     <i>
+        <a href="https://github.com/belindanju">
+            Tian Guo
+        </a>
+    </i>
+</p>
+<p align="center">
+    <i>
         <a href="https://github.com/jhsul">
             Jack Sullivan
         </a>
