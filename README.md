@@ -18,21 +18,26 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Installation](#install-locally)
+- [Install Locally](#install-locally)
+  - [Base Application](#base-application)
+  - [Database (Optional)](#database--optional-)
 - [Functionality](#functionality)
-- [Project Structure](#project-structure)
+  - [Loose-Coupling Model](#loose-coupling-model)
+  - [Control Flow](#control-flow)
+  - [Packages](#packages)
+  - [Gestures](#gestures)
 
 ## Introduction
 
-This project both recreates and expands on [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), an avatar-streamer model that supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions. It runs entirely in the browser, and heavily leverages the following libraries:
-
-- [mediapipe](https://google.github.io/mediapipe/) is used for face and pose recognition using a webcam. This project uses the [holistic](https://www.npmjs.com/package/@mediapipe/holistic) tracker.
-- [kalidokit](https://github.com/yeemachine/kalidokit) is used on top of Mediapipe to calculate both raw position and kinematics for the VTuber model.
-- [three-vrm](https://github.com/pixiv/three-vrm) generates the VRM model from three's default `GLTFLoader`.
+This project both recreates and expands on [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), an avatar-streamer model that supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions.
 
 ## Install Locally
 
-This is eventually going to be hosted on some dedicated server (probably through vercel or AWS amplify). In the meantime, you can run it locally by running the following commands in your POSIX shell:
+Ventriloquist is eventually going to be hosted on a dedicated server, but it can easily be run locally.
+
+### Base Application
+
+You can install and run the base app locally by running the following commands in a shell:
 
 ```sh
 # Clone and enter the repository
@@ -47,24 +52,42 @@ npm run build
 npm run start
 ```
 
+### Database (Optional)
+
+If you want your local installation to support user profiles, you will need to connect to a MongoDB Atlas cluster. Add your cluster authentication info to `.env.local`:
+
+```sh
+# .env.local
+MONGODB_URI=<...>
+MONGODB_DB=<your db name>
+```
+
 ## Functionality
 
-The app works by rendering a VRM model in a three.js scene, and controlling it with one of either two mechanisms:
+### Loose-Coupling Model
 
-1. One-to-one motion capture, using Kalidokit to calculate VRM coordinates from mediapipe
-2. Preset gestures (FBX animations), which are triggered by facial expressions and/or poses
+The Alter Echo paper proposes a loose-coupling model between the user and the VTuber model. The model follows the user with one-to-one motion capture, but facial expressions and hand positions can trigger the model to perform preset animations ("gestures").
 
-The alternating between one-to-one mocap and preset animations results in what AlterEcho calls a "Loose Coupling" relationship between the user and the VTuber model.
+### Control Flow
+
+There is one model loaded into a [three.js](https://threejs.org/) scene, and its controller switches between one-to-one motion capture and preset animations from [mixamo](https://www.mixamo.com/) based on user-defined triggers.
 
 ![High-level diagram](public/diagram.png)
 
-<p align="center"><i>Figure 1: A high-level description of the app's control flow</i></p>
+<p align="center"><i>Figure 1: Ventriloquist's general control flow</i></p>
 
-## Project Structure
+### Packages
 
-This version of ventriloquist runs on [nextjs](https://nextjs.org/), which defines/enforces much of the folder layout.
+Ventriloquist runs mostly in the browser, but it also has a server for things like user presets and static file hosting. It is built with [nextjs](https://nextjs.org/), so both the front- and backend are included in this repository.
 
-```
-TODO: Get tree command to not dump the whole node_modules folder
+It heavily leverages the following libraries:
 
-```
+- [mediapipe](https://google.github.io/mediapipe/) is used for face and pose recognition using a webcam. This project uses the [holistic](https://www.npmjs.com/package/@mediapipe/holistic) tracker.
+- [kalidokit](https://github.com/yeemachine/kalidokit) is used on top of Mediapipe to calculate both raw position and kinematics for the VTuber model.
+- [three-vrm](https://github.com/pixiv/three-vrm) generates the VRM model from three's default `GLTFLoader`.
+
+### Gestures
+
+Currently, the only supported gestures are .fbx animations from [mixamo](https://www.mixamo.com/#/). Make sure you select the "Without Skin" option.
+
+<p align="center"><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></p>
