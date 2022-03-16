@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 
-const githubUrl = "https://github.com/cake-lab/2022-Project-Vtubing";
+const githubUrl = "https://github.com/cake-lab/ventriloquist";
 
 const Home: NextPage = () => {
   const router = useRouter();
