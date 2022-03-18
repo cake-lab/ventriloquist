@@ -1,5 +1,4 @@
-// @ts-nocheck
-
+//@ts-nocheck
 import { VRM, VRMBlendShapeGroup, VRMSchema } from "@pixiv/three-vrm";
 import * as THREE from "three";
 import {

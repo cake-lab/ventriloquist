@@ -1,22 +1,17 @@
-//@ts-nocheck
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { currentVrm, mixer } from "./scene";
 import { mixamoVrmMap } from "../util/mixamoVrmMap";
-import { VRM } from "@pixiv/three-vrm";
+import { VRM, VRMSchema } from "@pixiv/three-vrm";
+import { Gesture } from "../types/main";
 
-const DEFAULT_GESTURE_FILES = ["Punching.fbx", "Walking.fbx", "Dancing.fbx"];
-
-/**
- * Gesture type
- */
-export type Gesture = {
-  name: string;
-  url: string;
-  animation: THREE.AnimationAction;
-  trigger: string;
-};
+const DEFAULT_GESTURE_FILES = [
+  "Punching.fbx",
+  "Walking.fbx",
+  "Dancing.fbx",
+  "DropKick.fbx",
+];
 
 let activeAction: THREE.AnimationAction;
 
@@ -38,6 +33,11 @@ export const loadDefaultGestures = async () => {
       `/gestures/${file}`,
       currentVrm
     );
+
+    if (!animation) {
+      console.log(`Error loading ${file}`);
+      continue;
+    }
 
     defaultGestures.push({
       name: file,
@@ -66,7 +66,9 @@ const loadMixamoAnimation = async (url: string, vrm: VRM) => {
     const mixamoRigName = splitTrack[0];
 
     const vrmBoneName = mixamoVrmMap[mixamoRigName];
-    const vrmNodeName = currentVrm.humanoid?.getBoneNode(vrmBoneName)?.name;
+    const vrmNodeName = vrm.humanoid?.getBoneNode(
+      vrmBoneName as VRMSchema.HumanoidBoneName
+    )?.name;
 
     if (vrmNodeName === null) {
       console.error(`Error finding ${vrmBoneName}`);
@@ -74,20 +76,21 @@ const loadMixamoAnimation = async (url: string, vrm: VRM) => {
     }
 
     const propertyName = splitTrack[1];
+
     if (track instanceof THREE.QuaternionKeyframeTrack) {
       tracks.push(
         new THREE.QuaternionKeyframeTrack(
           `${vrmNodeName}.${propertyName}`,
-          track.times,
-          track.values.map((v, i) => (i % 2 === 0 ? -v : v))
+          Array.from(track.times),
+          Array.from(track.values).map((v, i) => (i % 2 === 0 ? -v : v))
         )
       );
     } else if (track instanceof THREE.VectorKeyframeTrack) {
       tracks.push(
         new THREE.VectorKeyframeTrack(
           `${vrmNodeName}.${propertyName}`,
-          track.times,
-          track.values.map((v, i) => (i % 3 !== 1 ? -v : v) * 0.01)
+          Array.from(track.times),
+          Array.from(track.values).map((v, i) => (i % 3 !== 1 ? -v : v) * 0.01)
         )
       );
     }

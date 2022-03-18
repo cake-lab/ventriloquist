@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors } from "@mediapipe/drawing_utils";
 import {
