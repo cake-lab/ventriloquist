@@ -26,20 +26,21 @@ const SafeHydrate: FunctionComponent<SafeHydrateProps> = ({ children }) => {
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     if (typeof document !== undefined) {
+      console.log("Loading bootstrap js");
       require("bootstrap/dist/js/bootstrap");
     }
   }, []);
   return (
     <>
       <Head>
-        <title>Ventriloquist</title>
+        <title>ventriloquist</title>
         <meta
           name="description"
           content="Loosely coupled VRM motion capture system inspired by Alter Echo."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Nav />
+
       <Component {...pageProps} />
     </>
   );

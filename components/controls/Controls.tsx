@@ -8,9 +8,8 @@ const Tabs = dynamic(
   import("react-tabs").then((mod) => mod.Tabs as any),
   { ssr: false }
 ); // disable ssr
-import { Tab, TabList, TabPanel, resetIdCounter } from "react-tabs";
 
-//resetIdCounter();
+import { Tab, TabList, TabPanel, resetIdCounter } from "react-tabs";
 
 const Controls: FunctionComponent = () => {
   useEffect(() => {

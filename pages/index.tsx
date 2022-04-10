@@ -8,39 +8,37 @@ const githubUrl = "https://github.com/cake-lab/ventriloquist";
 const Home: NextPage = () => {
   const router = useRouter();
   return (
-    <>
-      <div id="home-container">
-        <div id="home-panel">
-          <h1 className="display-1">ventriloquist.io</h1>
-          <p className="lead">
-            ventriloquist is a browser-based VTubing app inspired by{" "}
-            <a href="https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf">
-              Alter Echo
-            </a>
-          </p>
-          <div>
-            <button
-              className="btn btn-outline-dark mx-1 my-2"
-              onClick={() => {
-                alert("We haven't written a paper yet lol");
-              }}
-            >
-              Paper
-            </button>
-            <button
-              className="btn btn-dark mx-1 my-2"
-              onClick={() => {
-                router.push("/app");
-              }}
-            >
-              App
-            </button>
-          </div>
-          <i>Tian Guo</i>
-          <i>Jack Sullivan</i>
+    <div id="home-container">
+      <div id="home-panel">
+        <h1 className="display-1">ventriloquist.io</h1>
+        <p className="lead">
+          ventriloquist is a browser-based VTubing app inspired by{" "}
+          <a href="https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf">
+            Alter Echo
+          </a>
+        </p>
+        <div>
+          <button
+            className="btn btn-outline-dark mx-1 my-2"
+            onClick={() => {
+              alert("We haven't written a paper yet lol");
+            }}
+          >
+            Paper
+          </button>
+          <button
+            className="btn btn-dark mx-1 my-2"
+            onClick={() => {
+              router.push("/app");
+            }}
+          >
+            App
+          </button>
         </div>
+        <i>Tian Guo</i>
+        <i>Jack Sullivan</i>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Modal from "react-modal";
 
 import Loading from "../components/Loading";
 import UI from "../components/UI";
@@ -20,6 +21,8 @@ import { getPromiseFromEvent } from "../util/awaitEvent";
 export type AppProps = {
   username?: string;
 };
+
+Modal.setAppElement(document.getElementById("__next")!);
 
 const App: FunctionComponent<AppProps> = ({ username }) => {
   // Loading overlay
@@ -62,12 +65,12 @@ const App: FunctionComponent<AppProps> = ({ username }) => {
   }, []);
 
   return (
-    <>
+    <div>
       <Loading message={loading} />
       <UI cameraCanvasRef={cameraCanvasRef} />
       <video ref={cameraVideoRef} id="camera-video" autoPlay></video>
       <canvas ref={sceneCanvasRef}></canvas>
-    </>
+    </div>
   );
 };
 

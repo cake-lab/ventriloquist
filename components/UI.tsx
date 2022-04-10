@@ -9,6 +9,7 @@ type UIProps = {
 const UI: FunctionComponent<UIProps> = ({ cameraCanvasRef }) => {
   return (
     <div id="ui-container">
+      <Nav />
       <canvas ref={cameraCanvasRef} id="camera-canvas"></canvas>
       <Controls />
     </div>

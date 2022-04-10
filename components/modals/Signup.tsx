@@ -1,24 +1,16 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useUser } from "../hooks/user";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { useUser } from "../../hooks/user";
+import { ModalProps } from "./modals";
 
-const Signup: NextPage = () => {
+const Signup: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
   const { user, mutate } = useUser();
   const [error, setError] = useState<string | null>(null);
-
-  const router = useRouter();
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (user) {
-      console.log("Already logged in, redirecting to /");
-      router.push("/");
-    }
-  }, []);
 
   const signup = async () => {
     setError(null);
@@ -48,7 +40,10 @@ const Signup: NextPage = () => {
     if (res.status === 201) {
       const username = await res.json();
       mutate({ username });
-      router.push("/");
+      console.log({ username });
+      onRequestClose();
+    } else {
+      setError("Something went wrong");
     }
   };
   return (
@@ -82,7 +77,12 @@ const Signup: NextPage = () => {
 
         <div className="form-row button-row">
           <div>
-            <button className="btn btn-outline-dark mx-1">Cancel</button>
+            <button
+              className="btn btn-outline-dark mx-1"
+              onClick={onRequestClose}
+            >
+              Cancel
+            </button>
             <button className="btn btn-dark mx-1" onClick={signup}>
               Signup
             </button>

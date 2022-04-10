@@ -24,8 +24,7 @@ body {
   display: flex;
   position: fixed;
   flex-direction: column;
-  border: 1px solid green;
-  width: fit-content;
+  width: 100%;
   height: 100%;
   padding: 20px;
 
@@ -35,6 +34,7 @@ body {
 
 /* Homescreen */
 #home-container {
+  margin-top: 80px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -53,17 +53,7 @@ body {
 }
 
 /* Login / signup forms */
-
-.form-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .form {
-  border: 2px solid black;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -109,16 +99,23 @@ body {
   background: #eaeaea;
 }
 
+/* Modal */
+
+.modal {
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
 /* Navbar */
 
 #navbar-container {
-  padding: 20px;
+  width: 100%;
+  padding: 0;
 }
 #navbar {
   pointer-events: auto;
   border: 2px solid black;
   border-radius: 10px;
-
   width: 100%;
   background-color: white;
   display: flex;
