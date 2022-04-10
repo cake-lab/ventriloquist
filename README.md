@@ -19,8 +19,6 @@
 
 - [Introduction](#introduction)
 - [Install Locally](#install-locally)
-  - [Base Application](#base-application)
-  - [Database (Optional)](#database--optional-)
 - [Functionality](#functionality)
   - [Loose-Coupling Model](#loose-coupling-model)
   - [Control Flow](#control-flow)
@@ -29,15 +27,16 @@
 
 ## Introduction
 
-This project both recreates and expands on [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), an avatar-streamer model that supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions.
+Ventriloquist is a browswer-based VTubing app made with [kalidokit](https://github.com/yeemachine/kalidokit). Ventriloquist is inspired by [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), a loosely-coupled avatar-streamer model which supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions.
 
 ## Install Locally
 
+Requirements:
+
+- Node
+- MongoDB
+
 Ventriloquist is eventually going to be hosted on a dedicated server, but it can easily be run locally.
-
-### Base Application
-
-You can install and run the base app locally by running the following commands in a shell:
 
 ```sh
 # Clone and enter the repository
@@ -47,19 +46,21 @@ cd ventriloquist
 # Install packages
 npm i
 
-# Start a local instance (localhost:3000)
-npm run build
-npm run start
 ```
 
-### Database (Optional)
-
-If you want your local installation to support user profiles, you will need to connect to a MongoDB Atlas cluster. Add your cluster authentication info to `.env.local`:
+Add your MongoDB URI to `.env.local`
 
 ```sh
 # .env.local
 MONGODB_URI=<your mongo uri>
-MONGODB_DB=<your db name>
+```
+
+Now you can build the application
+
+```sh
+# Start a local instance (localhost:3000)
+npm run build
+npm run start
 ```
 
 ## Functionality
