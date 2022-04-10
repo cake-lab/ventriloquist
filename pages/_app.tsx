@@ -5,8 +5,9 @@ import "../styles/github-corner.css";
 
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import { ReactChild, FunctionComponent } from "react";
+import Nav from "../components/Nav";
 
 /*
 type SafeHydrateProps = {
@@ -23,6 +24,11 @@ const SafeHydrate: FunctionComponent<SafeHydrateProps> = ({ children }) => {
 */
 
 const App = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    if (typeof document !== undefined) {
+      require("bootstrap/dist/js/bootstrap");
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -33,6 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Nav />
       <Component {...pageProps} />
     </>
   );

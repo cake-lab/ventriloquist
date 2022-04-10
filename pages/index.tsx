@@ -9,7 +9,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   return (
     <>
-      <GitHubCorner />
       <div id="home-container">
         <div id="home-panel">
           <h1 className="display-1">ventriloquist.io</h1>

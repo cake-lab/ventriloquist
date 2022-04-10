@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useEffect } from "react";
 import { AppProps } from "../components/App";
 
 // This disables SSR for the App component

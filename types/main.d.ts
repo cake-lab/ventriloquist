@@ -7,9 +7,4 @@ export type Gesture = {
 
 export type User = {
   username: string;
-  password?: string; // hashed password only available in server
-
-  // S3 bucket urls
-  gestures: string[];
-  models: string[];
 };
