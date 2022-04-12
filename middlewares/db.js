@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { GridFSBucket, MongoClient } from "mongodb";
 
 global.mongo = global.mongo || {};
 
@@ -17,7 +17,10 @@ export const db = async (req, res, next) => {
     global.mongo.client = new MongoClient(process.env.MONGODB_URI);
   }
   req.dbClient = await getMongoClient();
-  req.db = req.dbClient.db("ventriloquist"); // this use the database specified in the MONGODB_URI (after the "/")
+  req.db = req.dbClient.db("ventriloquist");
+  req.bucket = new GridFSBucket(req.db);
+
+  // this use the database specified in the MONGODB_URI (after the "/")
   //if (!indexesCreated) await createIndexes(req.db);
   return next();
 };

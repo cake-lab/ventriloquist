@@ -22,7 +22,7 @@ const SceneControls: FunctionComponent = () => {
         onRequestClose={closeModal}
         style={modalStyle}
       >
-        <UploadModel />
+        <UploadModel onRequestClose={closeModal} />
       </Modal>
       <div className="control-content">
         <b>Model</b>

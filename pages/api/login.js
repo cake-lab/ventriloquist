@@ -6,7 +6,7 @@ const handler = nc();
 handler.use(...middlewares);
 
 handler.post(passport.authenticate("local"), (req, res) => {
-  console.log(req.body);
+  console.log(`Logged in ${req.user.username}`);
   res.json({ user: req.user });
 });
 

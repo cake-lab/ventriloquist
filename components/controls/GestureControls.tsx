@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Gesture, defaultGestures, startGesture } from "../../scripts/gestures";
+import { defaultGestures, startGesture } from "../../scripts/gestures";
+import { Gesture } from "../../types/main";
 
 const GestureControls: FunctionComponent = () => {
   const [currentGestures, setCurrentGestures] = useState<Gesture[]>([]);

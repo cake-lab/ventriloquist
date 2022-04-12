@@ -74,17 +74,17 @@ const Signup: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
           <label>Confirm Password</label>
           <input className="form-control" type="password" ref={confirmRef} />
         </div>
-
+        <hr />
         <div className="form-row button-row">
           <div>
+            <button className="btn btn-dark mx-1" onClick={signup}>
+              Signup
+            </button>
             <button
               className="btn btn-outline-dark mx-1"
               onClick={onRequestClose}
             >
               Cancel
-            </button>
-            <button className="btn btn-dark mx-1" onClick={signup}>
-              Signup
             </button>
           </div>
         </div>

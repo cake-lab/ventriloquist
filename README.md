@@ -55,10 +55,13 @@ Add your MongoDB URI to `.env.local`
 MONGODB_URI=<your mongo uri>
 ```
 
-Now you can build the application
+Now you can build the application. Both options expose the site on `localhost:3000`
 
 ```sh
-# Start a local instance (localhost:3000)
+# Run the dev server (recommended)
+npm run dev
+
+# Build the full site and then run it
 npm run build
 npm run start
 ```

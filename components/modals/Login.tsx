@@ -62,17 +62,17 @@ const Login: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
           <label>Password</label>
           <input className="form-control" type="password" ref={passwordRef} />
         </div>
-
+        <hr />
         <div className="form-row button-row">
           <div>
+            <button className="btn btn-dark mx-1" onClick={login}>
+              Login
+            </button>
             <button
               className="btn btn-outline-dark mx-1"
               onClick={onRequestClose}
             >
               Cancel
-            </button>
-            <button className="btn btn-dark mx-1" onClick={login}>
-              Login
             </button>
           </div>
         </div>
