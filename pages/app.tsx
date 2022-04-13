@@ -8,7 +8,7 @@ import { AppProps } from "../components/App";
 const DynamicApp = dynamic(() => import("../components/App"), { ssr: false });
 
 const App: NextPage<AppProps> = ({ username }) => {
-  return <DynamicApp username={username} />;
+  return <DynamicApp />;
 };
 
 /**
