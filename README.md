@@ -54,7 +54,7 @@ Create a `.env.local` file and add your MongoDB URI
 MONGODB_URI=<your mongo uri>
 ```
 
-Now you can build the application. It is exposed on `localhost:8080`
+Now you can build the application. It is exposed on `localhost:3000`
 
 ```sh
 # Run the dev server (recommended)
