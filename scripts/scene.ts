@@ -6,6 +6,21 @@ import { isGesturing, setIsGesturing } from "./gestures";
 
 export let currentVrm: VRM;
 
+export const DEFAULT_GESTURE_FILES = [
+  "/gestures/Punching.fbx",
+  "/gestures/Walking.fbx",
+  "/gestures/Dancing.fbx",
+  "/gestures/DropKick.fbx",
+];
+
+export const DEFAULT_MODEL_FILES = [
+  "/rigs/avatar_sample_a.vrm",
+  "/rigs/free_male.vrm",
+  "/rigs/tail_girl.vrm",
+];
+
+export let currentModelFile = DEFAULT_MODEL_FILES[0];
+
 //export let cameraVrmOffset: THREE.Vector3; // sssh nothing sketchy going on here
 
 let scene: THREE.Scene;
@@ -56,8 +71,8 @@ export const startScene = async (
   light.position.set(1.0, 1.0, 1.0).normalize();
   scene.add(light);
 
-  // Load the model into a vrm object
-  currentVrm = await loadModel();
+  // Load the model into a vrm object (sets currentVrm)
+  await loadModel(currentModelFile);
 
   mixer = new THREE.AnimationMixer(currentVrm.scene);
   mixer.addEventListener("finished", (e) => {
@@ -72,8 +87,6 @@ export const startScene = async (
  * Main animation loop
  */
 
-let oldPosition = new THREE.Vector3();
-let newPosition = new THREE.Vector3();
 const animate = () => {
   requestAnimationFrame(animate);
 
@@ -92,10 +105,16 @@ const animate = () => {
 /**
  * Load a VRM model and add to currentVrms
  */
-const loadModel = async (filename: string = "/rigs/avatar_sample_a.vrm") => {
-  console.log(`Loading rig ${filename}`);
+export const loadModel = async (file: string) => {
+  if (currentVrm) {
+    console.log("Removing old model");
+    scene.remove(currentVrm.scene);
+  }
+
+  console.log(`Loading rig ${file}`);
+  currentModelFile = file;
   const loader = new GLTFLoader();
-  const gltf = await loader.loadAsync(filename);
+  const gltf = await loader.loadAsync(file);
 
   VRMUtils.removeUnnecessaryJoints(gltf.scene);
   VRMUtils.removeUnnecessaryVertices(gltf.scene);
@@ -103,5 +122,5 @@ const loadModel = async (filename: string = "/rigs/avatar_sample_a.vrm") => {
 
   scene.add(vrm.scene);
   vrm.scene.rotation.y = Math.PI;
-  return vrm;
+  currentVrm = vrm;
 };

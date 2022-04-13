@@ -1,12 +1,20 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useContext, useState } from "react";
 import Modal from "react-modal";
 import { useUser } from "../../hooks/user";
+import { loadDefaultGestures } from "../../scripts/gestures";
+import {
+  currentModelFile,
+  DEFAULT_GESTURE_FILES,
+  DEFAULT_MODEL_FILES,
+  loadModel,
+} from "../../scripts/scene";
+import { LoadingContext } from "../App";
 import { modalStyle } from "../modals/modals";
 import UploadModel from "../modals/UploadModel";
 
 const SceneControls: FunctionComponent = () => {
   const { user } = useUser();
-
+  const setLoading = useContext(LoadingContext);
   const [modelModalIsOpen, setModelModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -15,6 +23,23 @@ const SceneControls: FunctionComponent = () => {
   const closeModal = () => {
     setModelModalIsOpen(false);
   };
+
+  const changeModel = async (e: React.FormEvent<HTMLSelectElement>) => {
+    const newModelUrl = e.currentTarget.value;
+
+    if (currentModelFile === newModelUrl) {
+      alert(`${currentModelFile} already active`);
+      return;
+    }
+    setLoading(`Loading ${newModelUrl}`);
+    await loadModel(newModelUrl);
+
+    setLoading("Generating gestures");
+    await loadDefaultGestures();
+
+    setLoading(null);
+  };
+
   return (
     <>
       <Modal
@@ -26,16 +51,26 @@ const SceneControls: FunctionComponent = () => {
       </Modal>
       <div className="control-content">
         <b>Model</b>
-        {user ? (
-          <div style={{ display: "flex" }}>
-            <select className="form-select"></select>
-            <button className="btn btn-dark mx-1" onClick={openModal}>
-              Upload
-            </button>
-          </div>
-        ) : (
-          <i>Login to use custom models!</i>
-        )}
+
+        <div style={{ display: "flex" }}>
+          <select className="form-select" onChange={changeModel}>
+            <optgroup label="Default">
+              {DEFAULT_MODEL_FILES.map((s) => (
+                <option key={s} value={s}>
+                  {s.substring(6)}
+                </option>
+              ))}
+            </optgroup>
+            {user && <optgroup label="Custom"></optgroup>}
+          </select>
+          <button
+            className="btn btn-dark mx-1"
+            onClick={openModal}
+            disabled={!user}
+          >
+            New
+          </button>
+        </div>
 
         <b>Background</b>
         <table>

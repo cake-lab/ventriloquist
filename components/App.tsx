@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FunctionComponent,
   useEffect,
@@ -22,11 +22,19 @@ export type AppProps = {
   username?: string;
 };
 
+// Give modals root node to use
 Modal.setAppElement(document.getElementById("__next")!);
 
-const App: FunctionComponent<AppProps> = ({ username }) => {
+// Global loading state with the Context API
+export const LoadingContext = React.createContext<(s: string | null) => void>(
+  (s: string | null) => {}
+);
+
+const App: FunctionComponent<AppProps> = () => {
+  useContext;
   // Loading overlay
   const [loading, setLoading] = useState<string | null>(null);
+  //const [loading, setLoading] = useState({});
 
   // Error overlay
   const [error, setError] = useState<string | null>(null);
@@ -65,12 +73,12 @@ const App: FunctionComponent<AppProps> = ({ username }) => {
   }, []);
 
   return (
-    <div>
-      <Loading message={loading} />
+    <LoadingContext.Provider value={(s) => setLoading(s)}>
+      {Loading && <Loading message={loading} />}
       <UI cameraCanvasRef={cameraCanvasRef} />
       <video ref={cameraVideoRef} id="camera-video" autoPlay></video>
       <canvas ref={sceneCanvasRef}></canvas>
-    </div>
+    </LoadingContext.Provider>
   );
 };
 

@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       <div id="home-panel">
         <h1 className="display-1">ventriloquist</h1>
         <p className="lead text-danger">
-          this site is in active development and is unstable -Jack
+          this site is in active development and may be unstable
         </p>
         <p className="lead">
           ventriloquist is a browser-based VTubing app inspired by{" "}
@@ -25,10 +25,10 @@ const Home: NextPage = () => {
           <button
             className="btn btn-outline-dark mx-1 my-2"
             onClick={() => {
-              alert("We haven't written a paper yet lol");
+              alert("make ");
             }}
           >
-            Paper
+            About
           </button>
           <button
             className="btn btn-dark mx-1 my-2"
