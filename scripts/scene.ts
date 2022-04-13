@@ -92,7 +92,7 @@ const animate = () => {
 /**
  * Load a VRM model and add to currentVrms
  */
-const loadModel = async (filename: string = "/rigs/avatar_sample_a.vrm") => {
+const loadModel = async (filename: string = "/rigs/tail_girl.vrm") => {
   console.log(`Loading rig ${filename}`);
   const loader = new GLTFLoader();
   const gltf = await loader.loadAsync(filename);

@@ -1,15 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Db, MongoClient } from "mongodb";
 import nc from "next-connect";
-import middlewares, { runMiddleWares } from "../../middlewares";
+import middlewares from "../../middlewares";
+import multer from "multer";
 
-/*
-const handler = nc({
-  onError: (err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).end("Something broke!");
-  },
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: "tmp/",
+    filename: (req, file, cb) => cb(null, file.originalname),
+  }),
 });
+
+const handler = nc();
+
+handler.use(upload.single("file"));
 handler.use(...middlewares);
 
 handler.post((req, res) => {
@@ -18,17 +22,24 @@ handler.post((req, res) => {
     res.status(401).end();
     return;
   }
-  console.log(req.body);
+  //console.log(req.body);
 
-  res.json(req.user);bn  
+  res.json(req.user);
 });
 
-*/
-
+/*
 const handler = async (req, res) => {
   console.log("Hello??");
+  runMiddleWares(req, res, middlewares);
+
   res.status(200).end();
-  //await runMiddleWares(req, res, middlewares);
+};
+*/
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 };
 
 export default handler;

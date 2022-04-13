@@ -1,6 +1,7 @@
 import { FunctionComponent, useRef, useState } from "react";
 import { useUser } from "../../hooks/user";
 import { ModalProps } from "./modals";
+import axios from "axios";
 
 const UploadModel: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
   const [error, setError] = useState<string | null>(null);
@@ -28,15 +29,30 @@ const UploadModel: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("user", user.username);
-    const res = await fetch("/api/models", {
+
+    /*
+    const options = {
       method: "POST",
-      body: file,
-    });
+      body: data,
+    };
+
+    const res = await fetch("/api/models");
 
     console.log(res.status);
 
     console.log(await res.text());
+    */
+    const res = await axios.post("/api/models", data, {
+      headers: { "content-type": "multipart/form-data" },
+
+      onUploadProgress: (progressEvent) => {
+        console.log(
+          `Uploading: ${(progressEvent.loaded / progressEvent.total) * 100}%`
+        );
+      },
+    });
+
+    console.log(res);
   };
   return (
     <div className="form">

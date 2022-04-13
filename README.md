@@ -27,7 +27,7 @@
 
 ## Introduction
 
-Ventriloquist is a browswer-based VTubing app made with [kalidokit](https://github.com/yeemachine/kalidokit). Ventriloquist is inspired by [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), a loosely-coupled avatar-streamer model which supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions.
+Ventriloquist is a browser-based VTubing app built with [kalidokit](https://github.com/yeemachine/kalidokit). Ventriloquist is inspired by [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), a loosely-coupled avatar-streamer model which supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions.
 
 ## Install Locally
 
@@ -45,10 +45,9 @@ cd ventriloquist
 
 # Install packages
 npm i
-
 ```
 
-Add your MongoDB URI to `.env.local`
+Create a `.env.local` file and add your MongoDB URI
 
 ```sh
 # .env.local

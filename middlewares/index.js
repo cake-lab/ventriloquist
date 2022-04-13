@@ -4,6 +4,8 @@ import passport from "./auth";
 
 const middlewares = [db, session, passport.initialize(), passport.session()];
 
+/*
+IN CASE I EVER NEED TO NOT USE NEXT-CONNECT
 const runMiddleWare = (req, res, fn) => {
   return new Promise((resolve, reject) => {
     fn(req, res, (result) => {
@@ -16,12 +18,11 @@ const runMiddleWare = (req, res, fn) => {
   });
 };
 
-export const runMiddleWares = async (req, res, fns) => {
+export const runMiddleWares = (req, res, fns) => {
   console.log("Running all middlewares");
   for (const fn of fns) {
-    console.log("Running middleware");
-    await runMiddleWare(req, res, fn);
+    runMiddleWare(req, res, fn);
   }
 };
-
+*/
 export default middlewares;
