@@ -8,6 +8,9 @@ import Head from "next/head";
 import React, { useEffect } from "react";
 import { ReactChild, FunctionComponent } from "react";
 import Nav from "../components/Nav";
+import dynamic from "next/dynamic";
+
+//dynamic(() => import("bootstrap/dist/js/bootstrap"), { ssr: false });
 
 /*
 type SafeHydrateProps = {

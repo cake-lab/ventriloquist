@@ -11,7 +11,10 @@ const Home: NextPage = () => {
     <div id="home-container">
       <GitHubCorner />
       <div id="home-panel">
-        <h1 className="display-1">ventriloquist.io</h1>
+        <h1 className="display-1">ventriloquist</h1>
+        <p className="lead text-danger">
+          this site is in active development and is unstable -Jack
+        </p>
         <p className="lead">
           ventriloquist is a browser-based VTubing app inspired by{" "}
           <a href="https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf">
