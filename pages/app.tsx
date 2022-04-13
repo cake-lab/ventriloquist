@@ -11,13 +11,4 @@ const App: NextPage<AppProps> = ({ username }) => {
   return <DynamicApp />;
 };
 
-/**
- * See if the user is logged in or not
- */
-export const getServerSideProps: GetServerSideProps<AppProps> = async (
-  context
-) => {
-  return { props: { username: "hi" } };
-};
-
 export default App;
