@@ -19,7 +19,7 @@ const GestureControls: FunctionComponent = () => {
           </tr>
         </thead>
         <tbody>
-          {currentGestures.map((gesture, index) => {
+          {defaultGestures.map((gesture, index) => {
             return (
               <tr
                 key={index}
@@ -29,7 +29,7 @@ const GestureControls: FunctionComponent = () => {
                 className="gesture-row"
               >
                 <td>{gesture.name}</td>
-                <td>{gesture.trigger}</td>
+                <td>{gesture.trigger || "none"}</td>
               </tr>
             );
           })}

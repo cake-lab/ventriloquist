@@ -3,23 +3,26 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { isGesturing, setIsGesturing } from "./gestures";
+import { Model } from "../types/main";
 
+export const DEFAULT_MODELS: Model[] = [
+  {
+    name: "Default Girl",
+    url: "/default/models/avatar_sample_a.vrm",
+  },
+
+  {
+    name: "Default Boy",
+    url: "/default/models/free_male.vrm",
+  },
+  {
+    name: "Tail Girl",
+    url: "/default/models/tail_girl.vrm",
+  },
+];
+
+export let currentModel: Model = DEFAULT_MODELS[0];
 export let currentVrm: VRM;
-
-export const DEFAULT_GESTURE_FILES = [
-  "/gestures/Punching.fbx",
-  "/gestures/Walking.fbx",
-  "/gestures/Dancing.fbx",
-  "/gestures/DropKick.fbx",
-];
-
-export const DEFAULT_MODEL_FILES = [
-  "/rigs/avatar_sample_a.vrm",
-  "/rigs/free_male.vrm",
-  "/rigs/tail_girl.vrm",
-];
-
-export let currentModelFile = DEFAULT_MODEL_FILES[0];
 
 //export let cameraVrmOffset: THREE.Vector3; // sssh nothing sketchy going on here
 
@@ -72,7 +75,7 @@ export const startScene = async (
   scene.add(light);
 
   // Load the model into a vrm object (sets currentVrm)
-  await loadModel(currentModelFile);
+  await loadModel(currentModel);
 
   mixer = new THREE.AnimationMixer(currentVrm.scene);
   mixer.addEventListener("finished", (e) => {
@@ -105,16 +108,16 @@ const animate = () => {
 /**
  * Load a VRM model and add to currentVrms
  */
-export const loadModel = async (file: string) => {
+export const loadModel = async (model: Model) => {
   if (currentVrm) {
     console.log("Removing old model");
     scene.remove(currentVrm.scene);
   }
 
-  console.log(`Loading rig ${file}`);
-  currentModelFile = file;
+  console.log(`Loading rig ${model.url}`);
+  //currentModelFile = file;
   const loader = new GLTFLoader();
-  const gltf = await loader.loadAsync(file);
+  const gltf = await loader.loadAsync(model.url);
 
   VRMUtils.removeUnnecessaryJoints(gltf.scene);
   VRMUtils.removeUnnecessaryVertices(gltf.scene);

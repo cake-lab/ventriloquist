@@ -1,13 +1,8 @@
 import React, { FunctionComponent, useContext, useState } from "react";
 import Modal from "react-modal";
 import { useUser } from "../../hooks/user";
-import { loadDefaultGestures } from "../../scripts/gestures";
-import {
-  currentModelFile,
-  DEFAULT_GESTURE_FILES,
-  DEFAULT_MODEL_FILES,
-  loadModel,
-} from "../../scripts/scene";
+import { reloadGestures } from "../../scripts/gestures";
+import { currentModel, DEFAULT_MODELS, loadModel } from "../../scripts/scene";
 import { LoadingContext } from "../App";
 import { modalStyle } from "../modals/modals";
 import UploadModel from "../modals/UploadModel";
@@ -27,15 +22,22 @@ const SceneControls: FunctionComponent = () => {
   const changeModel = async (e: React.FormEvent<HTMLSelectElement>) => {
     const newModelUrl = e.currentTarget.value;
 
-    if (currentModelFile === newModelUrl) {
-      alert(`${currentModelFile} already active`);
+    if (currentModel.url === newModelUrl) {
+      alert(`${currentModel.url} already active`);
       return;
     }
-    setLoading(`Loading ${newModelUrl}`);
-    await loadModel(newModelUrl);
+
+    const model = DEFAULT_MODELS.find((m) => m.url === newModelUrl);
+
+    if (!model) {
+      console.error("Couldn't find that model");
+      return;
+    }
+    setLoading(`Loading ${model.name}`);
+    await loadModel(model);
 
     setLoading("Generating gestures");
-    await loadDefaultGestures();
+    await reloadGestures(setLoading);
 
     setLoading(null);
   };
@@ -55,9 +57,9 @@ const SceneControls: FunctionComponent = () => {
         <div style={{ display: "flex" }}>
           <select className="form-select" onChange={changeModel}>
             <optgroup label="Default">
-              {DEFAULT_MODEL_FILES.map((s) => (
-                <option key={s} value={s}>
-                  {s.substring(6)}
+              {DEFAULT_MODELS.map((s) => (
+                <option key={s.url} value={s.url}>
+                  {s.name}
                 </option>
               ))}
             </optgroup>

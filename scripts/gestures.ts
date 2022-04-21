@@ -1,18 +1,53 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import { currentVrm, DEFAULT_GESTURE_FILES, mixer } from "./scene";
+import { currentVrm, mixer } from "./scene";
 import { mixamoVrmMap } from "../util/mixamoVrmMap";
 import { VRM, VRMSchema } from "@pixiv/three-vrm";
 import { Gesture } from "../types/main";
 
 let activeAction: THREE.AnimationAction;
 
+const DEFAULT_GESTURES: Gesture[] = [
+  { name: "Dancing", url: "/default/gestures/Dancing.fbx" },
+  { name: "Drop Kick", url: "/default/gestures/DropKick.fbx" },
+  { name: "Punching", url: "/default/gestures/Punching.fbx" },
+  { name: "Walking", url: "/default/gestures/Walking.fbx" },
+];
+
 export let isGesturing = false;
 export const setIsGesturing = (to: boolean) => (isGesturing = to);
 
 export const defaultGestures: Gesture[] = [];
 
+/**
+ * Given a gesture, reload its animation for the given vrm
+ */
+export const loadGesture = async (vrm: VRM, gesture: Gesture) => {
+  const animation = await loadMixamoAnimation(gesture.url, vrm);
+
+  gesture.animation = animation || undefined;
+  if (!gesture.owner) defaultGestures.push(gesture);
+};
+
+export const reloadGestures = async (
+  setLoading: (message: string | null) => void
+) => {
+  if (!currentVrm) {
+    console.error("Trying to reload gestures without an active VRM");
+    return;
+  }
+
+  console.log("Reloading default gestures");
+  defaultGestures.length = 0;
+
+  for (const defaultGesture of DEFAULT_GESTURES) {
+    setLoading(`Loading ${defaultGesture.name}`);
+    loadGesture(currentVrm, defaultGesture);
+  }
+};
+
+/*
 export const loadDefaultGestures = async () => {
   defaultGestures.length = 0;
   if (!mixer || !currentVrm) {
@@ -35,7 +70,7 @@ export const loadDefaultGestures = async () => {
     });
   }
 };
-
+*/
 /**
  * Loads a mixamo FBX animation
  * https://glitch.com/edit/#!/three-vrm-1-sandbox-mixamo?path=loadMixamoAnimation.js%3A1%3A0
@@ -97,6 +132,13 @@ export const startGesture = (gesture: Gesture) => {
   if (activeAction) {
     console.log("Fading out of current animation");
     activeAction.fadeOut(1);
+  }
+
+  if (!gesture.animation) {
+    console.error(
+      "Attempting to play gesture which does not have an animation loaded"
+    );
+    return;
   }
   console.log(`Starting ${gesture.name}`);
   activeAction = gesture.animation;

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+  import React, { FunctionComponent, useEffect } from "react";
 import GestureControls from "./GestureControls";
 import SceneControls from "./SceneControls";
 import dynamic from "next/dynamic";

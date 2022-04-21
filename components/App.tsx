@@ -14,7 +14,7 @@ import UI from "../components/UI";
 import { startVideo } from "../scripts/camera";
 import { startScene } from "../scripts/scene";
 import { startMediapipe, stopMediapipe } from "../scripts/mediapipe";
-import { loadDefaultGestures } from "../scripts/gestures";
+import { reloadGestures } from "../scripts/gestures";
 
 import { getPromiseFromEvent } from "../util/awaitEvent";
 
@@ -31,7 +31,6 @@ export const LoadingContext = React.createContext<(s: string | null) => void>(
 );
 
 const App: FunctionComponent<AppProps> = () => {
-  useContext;
   // Loading overlay
   const [loading, setLoading] = useState<string | null>(null);
   //const [loading, setLoading] = useState({});
@@ -58,8 +57,8 @@ const App: FunctionComponent<AppProps> = () => {
       setLoading("Setting up three.js scene");
       await startScene(sceneCanvasRef.current!);
 
-      setLoading("Loading default gestures");
-      await loadDefaultGestures();
+      setLoading("Loading gestures");
+      await reloadGestures((s) => setLoading(s));
 
       setLoading("Starting mediapipe");
       await startMediapipe(cameraCanvasRef.current!, cameraVideoRef.current!);
