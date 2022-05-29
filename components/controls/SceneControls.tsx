@@ -5,10 +5,14 @@ import { reloadGestures } from "../../scripts/gestures";
 import { currentModel, DEFAULT_MODELS, loadModel } from "../../scripts/scene";
 import { GesturesContext, LoadingContext } from "../App";
 import { modalStyle } from "../modals/modals";
+import { scene } from "../../scripts/scene";
 import UploadModel from "../modals/UploadModel";
+import * as THREE from "three";
+import { setServers } from "dns";
 
 const SceneControls: FunctionComponent = () => {
-  const { user } = useUser();
+  //const { user } = useUser();
+  const [backgroundType, setBackgroundType] = useState<string>("solid");
   const setLoading = useContext(LoadingContext);
   const { setGestures } = useContext(GesturesContext);
   const [modelModalIsOpen, setModelModalIsOpen] = useState(false);
@@ -64,49 +68,65 @@ const SceneControls: FunctionComponent = () => {
                   </option>
                 ))}
               </optgroup>
-              {user && <optgroup label="Custom"></optgroup>}
             </select>
-            <button
-              className="btn btn-dark mx-1"
-              onClick={openModal}
-              disabled={!user}
-            >
+            <button className="btn btn-dark mx-1" onClick={openModal}>
               New
             </button>
           </div>
           <hr />
           <b>Background</b>
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="backgroundType"
-                    value="color"
-                    defaultChecked
-                  ></input>
-                </td>
-                <td>Color</td>
-                <td>
-                  <input type="text"></input>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="backgroundType"
-                    value="environment"
-                  ></input>
-                </td>
-                <td>Transparent</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="vbox">
+            <div className="hbox">
+              <input
+                type="radio"
+                className="form-check-input mx-2"
+                name="background"
+                defaultChecked={true}
+                onChange={(e) => {
+                  setBackgroundType(
+                    e.currentTarget.value ? "solid" : "transparent"
+                  );
+                  if (!!e) {
+                    scene.background = new THREE.Color(
+                      (
+                        document.getElementById(
+                          "solidColorPicker"
+                        )! as HTMLInputElement
+                      ).value //typescript lol
+                    );
+                  }
+                }}
+              ></input>
+              <p>Solid color</p>
+              <input
+                id="solidColorPicker"
+                type="color"
+                className="mx-2"
+                defaultValue="#eaeaea"
+                onChange={(e) => {
+                  if (backgroundType === "solid")
+                    scene.background = new THREE.Color(e.currentTarget.value);
+                }}
+              ></input>
+              <div style={{ flex: "1" }}></div>
+            </div>
+            <div className="hbox">
+              <input
+                type="radio"
+                className="form-check-input mx-2"
+                name="background"
+                onChange={(e) => {
+                  setBackgroundType(
+                    !e.currentTarget.value ? "solid" : "transparent"
+                  );
+                  if (!!e.currentTarget.value) {
+                    scene.background = null;
+                  }
+                }}
+              ></input>
+              <p>Transparent</p>
+            </div>
+          </div>
         </div>
       </div>
     </>

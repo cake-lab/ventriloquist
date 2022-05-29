@@ -28,10 +28,12 @@ const SafeHydrate: FunctionComponent<SafeHydrateProps> = ({ children }) => {
 
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
+    /*
     if (typeof document !== undefined) {
       console.log("Loading bootstrap js");
       require("bootstrap/dist/js/bootstrap");
     }
+    */
   }, []);
   return (
     <>
@@ -43,7 +45,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Component {...pageProps} />
     </>
   );

@@ -1,3 +1,4 @@
+// This is for the user system API, which I'm not using for the first release
 import nc from "next-connect";
 import middlewares from "../../middlewares";
 import passport from "../../middlewares/auth";

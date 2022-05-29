@@ -31,6 +31,8 @@ export const LoadingContext = React.createContext<(s: string | null) => void>(
   (s: string | null) => {}
 );
 
+// The currently loaded gestures, now also in a context API
+// TODO: put all the app state (currentVrm, gestures, etc.) in one state context
 export const GesturesContext = React.createContext<{
   gestures: Gesture[];
   setGestures: (g: Gesture[]) => void;
@@ -50,6 +52,10 @@ const App: FunctionComponent<AppProps> = () => {
   const cameraVideoRef = useRef<HTMLVideoElement>(null);
   const cameraCanvasRef = useRef<HTMLCanvasElement>(null);
   const sceneCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Toggle hiding the UI
+  // (DON'T DESTROY THE DOM ELEMENTS OR IT'LL FUCK UP MEDIAPIPE)
+  const [streamerMode, setStreamerMode] = useState<boolean>(false);
 
   // Run after the DOM elements are loaded
   useEffect(() => {
@@ -88,9 +94,18 @@ const App: FunctionComponent<AppProps> = () => {
         value={{ gestures, setGestures: (g) => setGestures(g) }}
       >
         {Loading && <Loading message={loading} />}
-        <UIOverlay cameraCanvasRef={cameraCanvasRef} />
+        <UIOverlay
+          style={{ visibility: streamerMode ? "hidden" : "visible" }}
+          cameraCanvasRef={cameraCanvasRef}
+        />
         <video ref={cameraVideoRef} id="camera-video" autoPlay></video>
-        <canvas ref={sceneCanvasRef}></canvas>
+        <canvas
+          ref={sceneCanvasRef}
+          onClick={() => {
+            setStreamerMode((x) => !x);
+            return false;
+          }}
+        ></canvas>
       </GesturesContext.Provider>
     </LoadingContext.Provider>
   );

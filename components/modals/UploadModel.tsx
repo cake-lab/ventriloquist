@@ -6,19 +6,22 @@ import axios from "axios";
 const UploadModel: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
   const [error, setError] = useState<string | null>(null);
 
-  const { user } = useUser();
+  //const { user } = useUser();
   const nameRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const upload = async () => {
-    setError(null);
+    setError("Uploading models is not fully implemented yet :(");
+    return;
     const name = nameRef.current?.value;
     const file = fileRef.current?.files![0];
 
+    /*
     if (!user) {
       setError("Need to be logged in");
       return;
     }
+    */
 
     if (!name || !file) {
       setError("Missing name or file");
@@ -28,7 +31,7 @@ const UploadModel: FunctionComponent<ModalProps> = ({ onRequestClose }) => {
     console.log({ name, file });
 
     const data = new FormData();
-    data.append("file", file);
+    //data.append("file", file);
 
     /*
     const options = {

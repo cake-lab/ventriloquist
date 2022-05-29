@@ -1,3 +1,5 @@
+// This is for the user system API, which I'm not using for the first release
+
 import nc from "next-connect";
 import { addUser, findUser } from "../../db";
 import middlewares from "../../middlewares";

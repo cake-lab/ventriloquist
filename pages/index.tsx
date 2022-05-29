@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           <button
             className="btn btn-outline-dark mx-1 my-2"
             onClick={() => {
-              alert("make ");
+              alert("Hi");
             }}
           >
             About

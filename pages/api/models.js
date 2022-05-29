@@ -1,4 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// This is for the user system API, which I'm not using for the first release
 import { Db, MongoClient } from "mongodb";
 import nc from "next-connect";
 import middlewares from "../../middlewares";

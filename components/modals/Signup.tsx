@@ -1,3 +1,5 @@
+// The user auth modals are not used in the release version
+
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FunctionComponent, useEffect, useRef, useState } from "react";

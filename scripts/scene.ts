@@ -26,7 +26,7 @@ export let currentVrm: VRM;
 
 //export let cameraVrmOffset: THREE.Vector3; // sssh nothing sketchy going on here
 
-let scene: THREE.Scene;
+export let scene: THREE.Scene;
 let renderer: THREE.WebGLRenderer;
 let clock: THREE.Clock;
 let camera: THREE.Camera;
@@ -61,7 +61,7 @@ export const startScene = async (
     0.1,
     1000
   );
-  camera.position.set(0.0, 1.6, 3);
+  camera.position.set(0.0, 1.6, 1);
 
   scene.add(camera);
 
