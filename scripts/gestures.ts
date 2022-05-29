@@ -12,7 +12,12 @@ const DEFAULT_GESTURES: Gesture[] = [
   { name: "Dancing", url: "/default/gestures/Dancing.fbx" },
   { name: "Drop Kick", url: "/default/gestures/DropKick.fbx" },
   { name: "Punching", url: "/default/gestures/Punching.fbx" },
-  { name: "Walking", url: "/default/gestures/Walking.fbx" },
+  { name: "Capo", url: "/default/gestures/Capoeira.fbx" },
+  { name: "Excited", url: "/default/gestures/Excited.fbx" },
+  {
+    name: "Punching3",
+    url: "https://cdn.glitch.me/16b81be8-1f14-4a44-b78f-c3f6da842ee7%2FGangnam%20Style.fbx?v=1636708670740",
+  },
 ];
 
 export let isGesturing = false;
@@ -31,7 +36,8 @@ export const loadGesture = async (vrm: VRM, gesture: Gesture) => {
 };
 
 export const reloadGestures = async (
-  setLoading: (message: string | null) => void
+  setLoading: (message: string | null) => void,
+  setGestures: (g: Gesture[]) => void
 ) => {
   if (!currentVrm) {
     console.error("Trying to reload gestures without an active VRM");
@@ -43,8 +49,9 @@ export const reloadGestures = async (
 
   for (const defaultGesture of DEFAULT_GESTURES) {
     setLoading(`Loading ${defaultGesture.name}`);
-    loadGesture(currentVrm, defaultGesture);
+    await loadGesture(currentVrm, defaultGesture);
   }
+  setGestures(defaultGestures);
 };
 
 /*
@@ -79,9 +86,9 @@ const loadMixamoAnimation = async (url: string, vrm: VRM) => {
   const loader = new FBXLoader();
   const asset = await loader.loadAsync(url);
   console.log(`Loaded FBX animation from ${url}`);
-
+  console.log(asset);
   const clip = THREE.AnimationClip.findByName(asset.animations, "mixamo.com");
-
+  console.log(clip);
   const tracks = [];
 
   for (const track of clip.tracks) {
@@ -100,12 +107,17 @@ const loadMixamoAnimation = async (url: string, vrm: VRM) => {
 
     const propertyName = splitTrack[1];
 
+    //console.log(vrm.meta);
+
     if (track instanceof THREE.QuaternionKeyframeTrack) {
       tracks.push(
         new THREE.QuaternionKeyframeTrack(
           `${vrmNodeName}.${propertyName}`,
           Array.from(track.times),
-          Array.from(track.values).map((v, i) => (i % 2 === 0 ? -v : v))
+          Array.from(track.values).map((v, i) =>
+            //vrm.meta?.version == "0" && i % 2 === 1 ? -v : v
+            i % 2 === 0 ? -v : v
+          )
         )
       );
     } else if (track instanceof THREE.VectorKeyframeTrack) {
@@ -113,7 +125,11 @@ const loadMixamoAnimation = async (url: string, vrm: VRM) => {
         new THREE.VectorKeyframeTrack(
           `${vrmNodeName}.${propertyName}`,
           Array.from(track.times),
-          Array.from(track.values).map((v, i) => (i % 3 !== 1 ? -v : v) * 0.01)
+          Array.from(track.values).map(
+            //(v, i) => (vrm.meta?.version == "0" && i % 3 !== 1 ? -v : v) * 0.01
+            //(v, i) => (i % 3 !== 0 ? -v : v) * 0.01
+            (v, i) => v * 0.01
+          )
         )
       );
     }

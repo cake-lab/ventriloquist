@@ -77,11 +77,6 @@ export const startScene = async (
   // Load the model into a vrm object (sets currentVrm)
   await loadModel(currentModel);
 
-  mixer = new THREE.AnimationMixer(currentVrm.scene);
-  mixer.addEventListener("finished", (e) => {
-    console.log("Animation finished");
-    setIsGesturing(false);
-  });
   // Begin animation loop
   animate();
 };
@@ -126,4 +121,11 @@ export const loadModel = async (model: Model) => {
   scene.add(vrm.scene);
   vrm.scene.rotation.y = Math.PI;
   currentVrm = vrm;
+
+  // Set a new mixer
+  mixer = new THREE.AnimationMixer(currentVrm.scene);
+  mixer.addEventListener("finished", (e) => {
+    console.log("Animation finished");
+    setIsGesturing(false);
+  });
 };

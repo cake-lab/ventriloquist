@@ -6,6 +6,17 @@ body {
   background-color: #eaeaea;
 }
 
+.hbox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: flex-start;
+}
+.vbox {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Camera stuff */
 #camera-video {
   display: none;
@@ -70,16 +81,15 @@ body {
 }
 
 /* Control Panel */
-#control-panel {
+.control-panel {
   border: 2px solid black;
   background-color: white;
 
   border-radius: 10px;
 
   pointer-events: auto;
-
-  padding: 20px;
   width: 400px;
+  padding: 20px;
 }
 
 .control-content {

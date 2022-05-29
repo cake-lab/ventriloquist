@@ -39,7 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <title>ventriloquist</title>
         <meta
           name="description"
-          content="Loosely coupled VRM motion capture system inspired by Alter Echo."
+          content="Loosely coupled VTuber app inspired by Alter Echo."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

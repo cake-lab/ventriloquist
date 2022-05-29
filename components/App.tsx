@@ -9,7 +9,7 @@ import {
 import Modal from "react-modal";
 
 import Loading from "../components/Loading";
-import UI from "../components/UI";
+import UIOverlay from "./UIOverlay";
 
 import { startVideo } from "../scripts/camera";
 import { startScene } from "../scripts/scene";
@@ -17,6 +17,7 @@ import { startMediapipe, stopMediapipe } from "../scripts/mediapipe";
 import { reloadGestures } from "../scripts/gestures";
 
 import { getPromiseFromEvent } from "../util/awaitEvent";
+import { Gesture } from "../types/main";
 
 export type AppProps = {
   username?: string;
@@ -30,10 +31,17 @@ export const LoadingContext = React.createContext<(s: string | null) => void>(
   (s: string | null) => {}
 );
 
+export const GesturesContext = React.createContext<{
+  gestures: Gesture[];
+  setGestures: (g: Gesture[]) => void;
+}>({ gestures: [], setGestures: (g) => {} });
+
 const App: FunctionComponent<AppProps> = () => {
   // Loading overlay
   const [loading, setLoading] = useState<string | null>(null);
   //const [loading, setLoading] = useState({});
+
+  const [gestures, setGestures] = useState<Gesture[]>([]);
 
   // Error overlay
   const [error, setError] = useState<string | null>(null);
@@ -58,7 +66,10 @@ const App: FunctionComponent<AppProps> = () => {
       await startScene(sceneCanvasRef.current!);
 
       setLoading("Loading gestures");
-      await reloadGestures((s) => setLoading(s));
+      await reloadGestures(
+        (s) => setLoading(s),
+        (g) => setGestures(g)
+      );
 
       setLoading("Starting mediapipe");
       await startMediapipe(cameraCanvasRef.current!, cameraVideoRef.current!);
@@ -73,10 +84,14 @@ const App: FunctionComponent<AppProps> = () => {
 
   return (
     <LoadingContext.Provider value={(s) => setLoading(s)}>
-      {Loading && <Loading message={loading} />}
-      <UI cameraCanvasRef={cameraCanvasRef} />
-      <video ref={cameraVideoRef} id="camera-video" autoPlay></video>
-      <canvas ref={sceneCanvasRef}></canvas>
+      <GesturesContext.Provider
+        value={{ gestures, setGestures: (g) => setGestures(g) }}
+      >
+        {Loading && <Loading message={loading} />}
+        <UIOverlay cameraCanvasRef={cameraCanvasRef} />
+        <video ref={cameraVideoRef} id="camera-video" autoPlay></video>
+        <canvas ref={sceneCanvasRef}></canvas>
+      </GesturesContext.Provider>
     </LoadingContext.Provider>
   );
 };

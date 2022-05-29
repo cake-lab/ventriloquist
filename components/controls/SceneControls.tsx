@@ -3,13 +3,14 @@ import Modal from "react-modal";
 import { useUser } from "../../hooks/user";
 import { reloadGestures } from "../../scripts/gestures";
 import { currentModel, DEFAULT_MODELS, loadModel } from "../../scripts/scene";
-import { LoadingContext } from "../App";
+import { GesturesContext, LoadingContext } from "../App";
 import { modalStyle } from "../modals/modals";
 import UploadModel from "../modals/UploadModel";
 
 const SceneControls: FunctionComponent = () => {
   const { user } = useUser();
   const setLoading = useContext(LoadingContext);
+  const { setGestures } = useContext(GesturesContext);
   const [modelModalIsOpen, setModelModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -37,7 +38,7 @@ const SceneControls: FunctionComponent = () => {
     await loadModel(model);
 
     setLoading("Generating gestures");
-    await reloadGestures(setLoading);
+    await reloadGestures(setLoading, setGestures);
 
     setLoading(null);
   };
@@ -51,75 +52,62 @@ const SceneControls: FunctionComponent = () => {
       >
         <UploadModel onRequestClose={closeModal} />
       </Modal>
-      <div className="control-content">
-        <b>Model</b>
-
-        <div style={{ display: "flex" }}>
-          <select className="form-select" onChange={changeModel}>
-            <optgroup label="Default">
-              {DEFAULT_MODELS.map((s) => (
-                <option key={s.url} value={s.url}>
-                  {s.name}
-                </option>
-              ))}
-            </optgroup>
-            {user && <optgroup label="Custom"></optgroup>}
-          </select>
-          <button
-            className="btn btn-dark mx-1"
-            onClick={openModal}
-            disabled={!user}
-          >
-            New
-          </button>
+      <div className="control-panel">
+        <div className="control-content">
+          <b>Avatar</b>
+          <div style={{ display: "flex" }}>
+            <select className="form-select" onChange={changeModel}>
+              <optgroup label="Default">
+                {DEFAULT_MODELS.map((s) => (
+                  <option key={s.url} value={s.url}>
+                    {s.name}
+                  </option>
+                ))}
+              </optgroup>
+              {user && <optgroup label="Custom"></optgroup>}
+            </select>
+            <button
+              className="btn btn-dark mx-1"
+              onClick={openModal}
+              disabled={!user}
+            >
+              New
+            </button>
+          </div>
+          <hr />
+          <b>Background</b>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="backgroundType"
+                    value="color"
+                    defaultChecked
+                  ></input>
+                </td>
+                <td>Color</td>
+                <td>
+                  <input type="text"></input>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="backgroundType"
+                    value="environment"
+                  ></input>
+                </td>
+                <td>Transparent</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <b>Background</b>
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="backgroundType"
-                  value="color"
-                  defaultChecked
-                ></input>
-              </td>
-              <td>Color</td>
-              <td>
-                <input type="text"></input>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="backgroundType"
-                  value="image"
-                ></input>
-              </td>
-              <td>Image</td>
-              <td>
-                <select></select>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="backgroundType"
-                  value="environment"
-                ></input>
-              </td>
-              <td>Environment</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </>
   );
