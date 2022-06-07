@@ -19,17 +19,15 @@ const Home: NextPage = () => {
           </a>
         </p>
 
-        <p className="lead text-danger">
-          this site is in active development and may be unstable
-        </p>
+        <p className="lead text-success">you are using release 1.0.0 😊</p>
         <div>
           <button
             className="btn btn-outline-dark mx-1 my-2"
             onClick={() => {
-              alert("Hi");
+              router.push(githubUrl);
             }}
           >
-            About
+            Code
           </button>
           <button
             className="btn btn-dark mx-1 my-2"

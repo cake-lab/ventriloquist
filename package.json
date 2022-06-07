@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "next build && next export",
+    "predeploy": "next build && next export && echo $null >> out/.nojekyll",
     "deploy": "gh-pages -d out"
   },
   "dependencies": {
