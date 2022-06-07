@@ -15,51 +15,17 @@
     </i>
 </p>
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Install Locally](#install-locally)
-- [Functionality](#functionality)
-  - [Loose-Coupling Model](#loose-coupling-model)
-  - [Control Flow](#control-flow)
-  - [Packages](#packages)
-  - [Gestures](#gestures)
-
 ## Introduction
 
 Ventriloquist is a browser-based VTubing app built with [kalidokit](https://github.com/yeemachine/kalidokit). Ventriloquist is inspired by [AlterEcho](https://www.cs.purdue.edu/cgvlab/papers/popescu/2021ISMARAlterEchoPopescu.pdf), a loosely-coupled avatar-streamer model which supports both one-to-one motion capture and preset animations ("gestures") which are triggered either manually or with poses/facial expressions.
 
-## Install Locally
-
-Requirements:
-
-- Node
-- MongoDB
-
-Ventriloquist is eventually going to be hosted on a dedicated server, but it can easily be run locally.
-
-```sh
-# Clone and enter the repository
-git clone https://github.com/cake-lab/ventriloquist
-cd ventriloquist
-
-# Install packages
-npm i
-```
-
-Create a `.env.local` file and add your MongoDB URI
-
-```sh
-# .env.local
-MONGODB_URI=<your mongo uri>
-```
-
-Now you can build the application. It is exposed on `localhost:3000`
-
-```sh
-# Run the dev server (recommended)
-npm run dev
-```
+<p align="center">
+    <img src="public/mocap.gif" width="300">
+    <img src="public/gangnam.gif" width="300">
+</p>
+<p align="center">
+    Left: Motion capture wave. Right: Custom gesture ("gangnam style" from Mixamo)
+</p>
 
 ## Functionality
 
@@ -88,5 +54,3 @@ In the browser, ventriloquist heavily leverages the following libraries:
 ### Gestures
 
 Currently, the only supported gestures are .fbx animations from [mixamo](https://www.mixamo.com/#/). Make sure you select the "Without Skin" option.
-
-<p align="center"><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></p>
