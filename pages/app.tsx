@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 //import { AppProps } from "../components/App";
 
 // This disables SSR for the App component
-// Webkit was getting mad because kalidokit doesn't work on node
+// IF YOU SEE THIS ERROR, JUST REFRESH LOL -Jack
 const DynamicApp = dynamic(() => import("../components/App"), { ssr: false });
 
 const App: NextPage = () => {

@@ -1,14 +1,14 @@
 {
   "name": "ventriloquist",
   "private": true,
-  "homepage": "https://cake-lab.github.io/ventriloquist",
+  "homepage": "http://cake.wpi.edu/ventriloquist",
   "scripts": {
     "dev": "next dev",
     "export": "next export",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "build && export",
+    "predeploy": "next build && next export",
     "deploy": "gh-pages -d out"
   },
   "dependencies": {
@@ -50,6 +50,5 @@
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "typescript": "4.6.2"
-  },
-  "type": "module"
+  }
 }
