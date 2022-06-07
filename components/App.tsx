@@ -101,7 +101,7 @@ const App: FunctionComponent<AppProps> = () => {
         <video ref={cameraVideoRef} id="camera-video" autoPlay></video>
         <canvas
           ref={sceneCanvasRef}
-          onClick={() => {
+          onContextMenu={() => {
             setStreamerMode((x) => !x);
             return false;
           }}

@@ -10,10 +10,6 @@ let activeAction: THREE.AnimationAction;
 
 const DEFAULT_GESTURES: Gesture[] = [
   {
-    name: "Capoeira",
-    url: "https://cdn.glitch.global/b233b4ea-cf6c-403a-bb68-82babee52d57/Capoeira%20(1).fbx?v=1642556259178",
-  },
-  {
     // Why is this the only one that works
     name: "Gangnam Style",
     url: "https://cdn.glitch.me/16b81be8-1f14-4a44-b78f-c3f6da842ee7%2FGangnam%20Style.fbx?v=1636708670740",

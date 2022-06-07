@@ -8,16 +8,16 @@ import { Model } from "../types/main";
 export const DEFAULT_MODELS: Model[] = [
   {
     name: "Default Girl",
-    url: "/default/models/avatar_sample_a.vrm",
+    url: "/ventriloquist/default/models/avatar_sample_a.vrm",
   },
 
   {
     name: "Default Boy",
-    url: "/default/models/free_male.vrm",
+    url: "/ventriloquist/default/models/free_male.vrm",
   },
   {
     name: "Tail Girl",
-    url: "/default/models/tail_girl.vrm",
+    url: "/ventriloquist/default/models/tail_girl.vrm",
   },
 ];
 

@@ -30,7 +30,7 @@ const UIOverlay: FunctionComponent<UIOverlayProps> = ({
               alignItems: "center",
             }}
           >
-            <i>Hint: Click the screen to toggle streamer mode</i>
+            <i>Hint: Right click the screen to toggle streamer mode</i>
           </div>
         </div>
       </div>
